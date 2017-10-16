@@ -44,11 +44,22 @@ makeCacheMatrix <- function(mtx = matrix()) {
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
         slv <- x$getsolve()
+        
+        ## Vector example "if" condition changed to is.null to clarify
+        ## execution flow through avoiding return() at "if" body. 
+        ## No matter is.null() evaluation as the function execution flow
+        ## will go to the end of the function body
+        ##
+        ## if `message()` wouldn't be needed, the "else" section could be
+        ## deleted
+        
         if (is.null(slv)) {
                 ## If not calculated before, compute the inverse and cache it
                 m <- x$get()
                 slv <- solve(m, ...)
                 x$setsolve(slv)
+        } else {
+                message("getting cached inverse")
         }
         slv
 }
